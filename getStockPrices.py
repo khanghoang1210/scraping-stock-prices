@@ -1,9 +1,12 @@
+# import libraries
+
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 from tabulate import tabulate
+
 def stockData(symbol):
-    #get url
+    # get url
     url = f"https://uk.finance.yahoo.com/quote/{symbol}"
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"
@@ -23,7 +26,7 @@ def stockData(symbol):
     stock_prices = pd.DataFrame(stock.items(),columns=['keys','values'])
     stocks = tabulate(stock_prices,headers='keys',tablefmt='psql')
 
-    #get summary table
+    # get summary table
     name = soup.find('table', {'class': 'W(100%)'}).find_all(
         'td', {'class': 'C($primaryColor) W(51%)'})
     names = []
@@ -42,5 +45,5 @@ def stockData(symbol):
 
     return stocks,table
 
-stocks, table = stockData('ASPL.L')
+stocks, table = stockData('ICON.L')
 print(stocks, table)
